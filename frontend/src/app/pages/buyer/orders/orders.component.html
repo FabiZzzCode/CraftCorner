@@ -1,0 +1,43 @@
+<div class="page-wrapper">
+  <div class="container">
+    <h2 class="section-title">My Orders</h2>
+
+    @if (loading) { <app-spinner /> }
+
+    @if (!loading) {
+      @if (orders.length === 0) {
+        <div class="text-center py-5">
+          <i class="fa-solid fa-box-open fa-3x text-muted mb-3"></i>
+          <h5>No orders yet</h5>
+          <a routerLink="/products" class="btn btn-primary mt-2">Start Shopping</a>
+        </div>
+      } @else {
+        <div class="orders-list">
+          @for (order of orders; track order.id) {
+            <a [routerLink]="['/orders', order.id]" class="order-card">
+              <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                <div>
+                  <p class="order-num">Order #{{ order.orderNumber }}</p>
+                  <p class="order-date text-muted small">{{ order.createdAt | date:'mediumDate' }}</p>
+                  <p class="small text-muted">{{ order.items.length }} item(s)</p>
+                </div>
+                <div class="text-end">
+                  <span class="badge {{ statusClass(order.orderStatus) }} mb-1">{{ order.orderStatus }}</span>
+                  <p class="fw-bold mt-1">৳{{ order.totalAmount | number:'1.0-0' }}</p>
+                </div>
+              </div>
+              <div class="item-thumbs mt-2 d-flex gap-2 flex-wrap">
+                @for (item of order.items.slice(0,4); track item.id) {
+                  <img [src]="item.productImage || 'assets/placeholder-product.jpg'" class="item-thumb">
+                }
+                @if (order.items.length > 4) {
+                  <div class="item-thumb more">+{{ order.items.length - 4 }}</div>
+                }
+              </div>
+            </a>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

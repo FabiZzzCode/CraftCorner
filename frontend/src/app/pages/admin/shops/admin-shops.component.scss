@@ -1,0 +1,19 @@
+.table-panel {
+  background: var(--cc-white);
+  border: 1px solid var(--cc-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.shop-thumb {
+  width: 40px; height: 40px; border-radius: 8px; object-fit: cover;
+  border: 1px solid var(--cc-border); flex-shrink: 0;
+}
+
+.shop-thumb-placeholder {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: var(--cc-tan); color: var(--cc-dark-brown);
+  font-family: 'Playfair Display', serif; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}

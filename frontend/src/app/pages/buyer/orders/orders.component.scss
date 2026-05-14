@@ -1,0 +1,26 @@
+.orders-list { display: flex; flex-direction: column; gap: 0.75rem; max-width: 720px; }
+
+.order-card {
+  display: block;
+  background: var(--cc-white);
+  border: 1px solid var(--cc-border);
+  border-radius: 12px;
+  padding: 1.2rem;
+  text-decoration: none;
+  color: var(--cc-text);
+  transition: box-shadow 0.2s, transform 0.2s;
+  &:hover { box-shadow: 0 4px 16px var(--cc-shadow); transform: translateY(-1px); color: var(--cc-text); }
+}
+
+.order-num { font-weight: 600; color: var(--cc-dark-brown); margin: 0; }
+
+.item-thumb {
+  width: 48px; height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--cc-border);
+  &.more {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cc-beige); color: var(--cc-text-muted); font-size: 0.8rem;
+  }
+}

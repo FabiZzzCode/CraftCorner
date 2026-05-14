@@ -1,0 +1,27 @@
+.cc-footer {
+  background: var(--cc-dark-brown);
+  color: rgba(255,255,255,0.8);
+  padding: 3rem 0 1.5rem;
+  margin-top: 4rem;
+
+  h5 {
+    font-family: 'Playfair Display', serif;
+    color: var(--cc-beige);
+    font-size: 1.3rem;
+  }
+
+  h6 { color: var(--cc-tan); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+  p { font-size: 0.88rem; color: rgba(255,255,255,0.65); }
+
+  a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.88rem;
+    display: block;
+    padding: 0.2rem 0;
+    &:hover { color: var(--cc-tan); }
+  }
+
+  hr { border-color: rgba(255,255,255,0.15); }
+}

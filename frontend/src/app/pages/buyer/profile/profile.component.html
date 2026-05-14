@@ -1,0 +1,63 @@
+<div class="page-wrapper">
+  <div class="container" style="max-width:680px">
+    <h2 class="section-title">My Profile</h2>
+
+    <!-- Profile Info -->
+    <div class="profile-card">
+      <div class="profile-avatar">{{ auth.currentUser()?.fullName?.charAt(0) }}</div>
+      <div>
+        <h5>{{ auth.currentUser()?.fullName }}</h5>
+        <p class="text-muted small">{{ auth.currentUser()?.email }}</p>
+        <span class="badge bg-primary small">{{ auth.currentUser()?.roles?.[0] }}</span>
+      </div>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="section-panel mt-4">
+      <h6>Edit Profile</h6>
+      @if (profileSuccess) { <div class="alert alert-success py-1 small">{{ profileSuccess }}</div> }
+      @if (profileError)   { <div class="alert alert-danger py-1 small">{{ profileError }}</div> }
+      <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label">First Name</label>
+            <input class="form-control" formControlName="firstName">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Last Name</label>
+            <input class="form-control" formControlName="lastName">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Phone</label>
+            <input class="form-control" formControlName="phone">
+          </div>
+        </div>
+        <button class="btn btn-primary mt-3" [disabled]="savingProfile">
+          @if (savingProfile) { <span class="spinner-border spinner-border-sm me-2"></span> }
+          Save Changes
+        </button>
+      </form>
+    </div>
+
+    <!-- Change Password -->
+    <div class="section-panel mt-3">
+      <h6>Change Password</h6>
+      @if (passwordSuccess) { <div class="alert alert-success py-1 small">{{ passwordSuccess }}</div> }
+      @if (passwordError)   { <div class="alert alert-danger py-1 small">{{ passwordError }}</div> }
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <div class="mb-3">
+          <label class="form-label">Current Password</label>
+          <input type="password" class="form-control" formControlName="currentPassword">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">New Password</label>
+          <input type="password" class="form-control" formControlName="newPassword">
+        </div>
+        <button class="btn btn-outline-primary" [disabled]="savingPassword">
+          @if (savingPassword) { <span class="spinner-border spinner-border-sm me-2"></span> }
+          Update Password
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

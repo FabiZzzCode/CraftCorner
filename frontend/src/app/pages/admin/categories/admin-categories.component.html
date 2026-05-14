@@ -1,0 +1,97 @@
+<div class="page-wrapper">
+  <div class="container">
+    <h2 class="section-title">Category Management</h2>
+
+    @if (loading) { <app-spinner /> }
+
+    @if (!loading) {
+      <div class="row g-4">
+
+        <!-- Form panel -->
+        <div class="col-md-4">
+          <div class="section-panel">
+            <h6>{{ editingId ? 'Edit Category' : 'Add Category' }}</h6>
+            @if (formSuccess) { <div class="alert alert-success py-1 small">{{ formSuccess }}</div> }
+            @if (formError)   { <div class="alert alert-danger py-1 small">{{ formError }}</div> }
+            <form [formGroup]="form" (ngSubmit)="save()">
+              <div class="mb-3">
+                <label class="form-label">Name <span class="text-danger">*</span></label>
+                <input class="form-control" formControlName="name">
+                @if (f['name'].invalid && f['name'].touched) {
+                  <div class="invalid-msg">Name required (min 2 chars).</div>
+                }
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" formControlName="description" rows="2"></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Image URL</label>
+                <input class="form-control" formControlName="imageUrl" placeholder="https://...">
+                @if (f['imageUrl'].value) {
+                  <img [src]="f['imageUrl'].value!" class="cat-preview mt-2" alt="preview">
+                }
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-primary flex-fill" type="submit" [disabled]="saving">
+                  @if (saving) { <span class="spinner-border spinner-border-sm me-1"></span> }
+                  {{ editingId ? 'Update' : 'Create' }}
+                </button>
+                @if (editingId) {
+                  <button class="btn btn-outline-secondary" type="button" (click)="cancelEdit()">Cancel</button>
+                }
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Categories list -->
+        <div class="col-md-8">
+          <div class="table-panel">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (cat of categories; track cat.id) {
+                    <tr [class.table-primary]="editingId === cat.id">
+                      <td>
+                        <div class="d-flex align-items-center gap-2">
+                          @if (cat.imageUrl) {
+                            <img [src]="cat.imageUrl" class="cat-thumb" alt="">
+                          } @else {
+                            <div class="cat-thumb-placeholder"><i class="fa-solid fa-tag"></i></div>
+                          }
+                          <span class="fw-semibold small">{{ cat.name }}</span>
+                        </div>
+                      </td>
+                      <td class="small text-muted">{{ cat.description | slice:0:60 }}{{ (cat.description?.length ?? 0) > 60 ? '…' : '' }}</td>
+                      <td class="text-end">
+                        <div class="d-flex gap-2 justify-content-end">
+                          <button class="btn btn-sm btn-outline-secondary" (click)="startEdit(cat)">
+                            <i class="fa-solid fa-pen"></i>
+                          </button>
+                          <button class="btn btn-sm btn-outline-danger"
+                                  (click)="delete(cat.id)"
+                                  [disabled]="deletingId === cat.id">
+                            <i class="fa-solid fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="page-wrapper">
+  <div class="container">
+    <h2 class="section-title">Admin Dashboard</h2>
+
+    @if (loading) { <app-spinner /> }
+
+    @if (!loading && stats) {
+      <!-- Stats grid -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <i class="fa-solid fa-users stat-icon"></i>
+            <div class="stat-value">{{ stats.totalUsers }}</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <i class="fa-solid fa-store stat-icon"></i>
+            <div class="stat-value">{{ stats.totalShops }}</div>
+            <div class="stat-label">Total Shops</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <i class="fa-solid fa-box stat-icon"></i>
+            <div class="stat-value">{{ stats.totalProducts }}</div>
+            <div class="stat-label">Products</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card green">
+            <i class="fa-solid fa-bangladeshi-taka-sign stat-icon"></i>
+            <div class="stat-value">৳{{ stats.totalRevenue | number:'1.0-0' }}</div>
+            <div class="stat-label">Revenue</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card warning">
+            <i class="fa-solid fa-clock stat-icon"></i>
+            <div class="stat-value">{{ stats.pendingShops }}</div>
+            <div class="stat-label">Pending Shops</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <i class="fa-solid fa-bag-shopping stat-icon"></i>
+            <div class="stat-value">{{ stats.totalOrders }}</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card warning">
+            <i class="fa-solid fa-hourglass-half stat-icon"></i>
+            <div class="stat-value">{{ stats.pendingOrders }}</div>
+            <div class="stat-label">Pending Orders</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <i class="fa-solid fa-user-tie stat-icon"></i>
+            <div class="stat-value">{{ stats.totalSellers }}</div>
+            <div class="stat-label">Sellers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="row g-3">
+        <div class="col-md-4">
+          <a routerLink="/admin/shops" class="quick-link">
+            <i class="fa-solid fa-store-clock fa-lg"></i>
+            <span>Review Pending Shops <span class="badge bg-warning text-dark ms-1">{{ stats.pendingShops }}</span></span>
+            <i class="fa-solid fa-chevron-right ms-auto"></i>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a routerLink="/admin/orders" class="quick-link">
+            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <span>View All Orders</span>
+            <i class="fa-solid fa-chevron-right ms-auto"></i>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a routerLink="/admin/categories" class="quick-link">
+            <i class="fa-solid fa-tags fa-lg"></i>
+            <span>Manage Categories</span>
+            <i class="fa-solid fa-chevron-right ms-auto"></i>
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+</div>

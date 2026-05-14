@@ -1,0 +1,120 @@
+<div class="page-wrapper">
+  <div class="container">
+    @if (loading) { <app-spinner /> }
+
+    @if (!loading) {
+      <!-- Shop status banner -->
+      @if (!shop) {
+        <div class="alert alert-warning d-flex align-items-center gap-3">
+          <i class="fa-solid fa-store-slash fa-lg"></i>
+          <div>
+            You don't have a shop yet.
+            <a routerLink="/seller/shop" class="alert-link ms-1">Set up your shop</a> to start selling.
+          </div>
+        </div>
+      }
+
+      @if (shop && shop.status !== 'APPROVED') {
+        <div class="alert alert-info d-flex align-items-center gap-3">
+          <i class="fa-solid fa-clock fa-lg"></i>
+          <div>
+            Your shop <strong>{{ shop.name }}</strong> is
+            <span class="badge badge-{{ shop.status.toLowerCase() }}">{{ shop.status }}</span>
+            — you'll be able to list products once approved.
+          </div>
+        </div>
+      }
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title mb-0">Seller Dashboard</h2>
+        @if (shop?.status === 'APPROVED') {
+          <a routerLink="/seller/products/add" class="btn btn-primary">
+            <i class="fa-solid fa-plus me-2"></i>Add Product
+          </a>
+        }
+      </div>
+
+      <!-- Stats -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4">
+          <div class="stat-card">
+            <i class="fa-solid fa-box stat-icon"></i>
+            <div class="stat-value">{{ stats.totalProducts }}</div>
+            <div class="stat-label">Total Products</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="stat-card">
+            <i class="fa-solid fa-bag-shopping stat-icon"></i>
+            <div class="stat-value">{{ stats.totalOrders }}</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="stat-card warning">
+            <i class="fa-solid fa-hourglass-half stat-icon"></i>
+            <div class="stat-value">{{ stats.pendingOrders }}</div>
+            <div class="stat-label">Pending Orders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop card -->
+      @if (shop) {
+        <div class="shop-card mb-4">
+          @if (shop.bannerUrl) {
+            <img [src]="shop.bannerUrl" class="shop-banner" alt="shop banner">
+          }
+          <div class="shop-info">
+            @if (shop.logoUrl) {
+              <img [src]="shop.logoUrl" class="shop-logo" alt="logo">
+            } @else {
+              <div class="shop-logo-placeholder">{{ shop.name.charAt(0) }}</div>
+            }
+            <div>
+              <h5 class="mb-1">{{ shop.name }}</h5>
+              <p class="text-muted small mb-0">{{ shop.description }}</p>
+            </div>
+            <a routerLink="/seller/shop" class="btn btn-outline-primary btn-sm ms-auto">Edit Shop</a>
+          </div>
+        </div>
+      }
+
+      <!-- Recent orders -->
+      <div class="section-panel">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="mb-0">Recent Orders</h6>
+          <a routerLink="/seller/orders" class="small text-primary">View all →</a>
+        </div>
+        @if (recentOrders.length === 0) {
+          <p class="text-muted small text-center py-3">No orders yet.</p>
+        } @else {
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Order #</th>
+                  <th>Buyer</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (order of recentOrders; track order.id) {
+                  <tr>
+                    <td class="fw-semibold">{{ order.orderNumber }}</td>
+                    <td>{{ order.buyerName }}</td>
+                    <td>৳{{ order.totalAmount | number:'1.0-0' }}</td>
+                    <td><span class="badge badge-{{ order.orderStatus.toLowerCase() }}">{{ order.orderStatus }}</span></td>
+                    <td class="text-muted small">{{ order.createdAt | date:'mediumDate' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

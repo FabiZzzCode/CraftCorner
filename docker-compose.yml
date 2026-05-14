@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: craftcorner-db
+    environment:
+      POSTGRES_DB: craftcorner
+      POSTGRES_USER: craftcorner
+      POSTGRES_PASSWORD: craftcorner
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,15 @@
+.table-panel {
+  background: var(--cc-white);
+  border: 1px solid var(--cc-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.avatar-sm {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--cc-brown); color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}

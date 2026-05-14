@@ -1,0 +1,95 @@
+<div class="page-wrapper">
+  <div class="container">
+    <h2 class="section-title">User Management</h2>
+
+    @if (loading) { <app-spinner /> }
+
+    @if (!loading) {
+      <div class="table-panel">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>User</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Status</th>
+                <th>Joined</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users; track user.id) {
+                <tr [class.table-warning]="user.isBlocked">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="avatar-sm">{{ user.fullName.charAt(0) }}</div>
+                      <span class="fw-semibold small">{{ user.fullName }}</span>
+                    </div>
+                  </td>
+                  <td class="small text-muted">{{ user.email }}</td>
+                  <td>
+                    @for (role of user.roles; track role) {
+                      <span class="badge bg-secondary small me-1">{{ role.replace('ROLE_', '') }}</span>
+                    }
+                  </td>
+                  <td>
+                    @if (user.isBlocked) {
+                      <span class="badge bg-danger">Blocked</span>
+                    } @else if (!user.isActive) {
+                      <span class="badge bg-secondary">Inactive</span>
+                    } @else {
+                      <span class="badge bg-success">Active</span>
+                    }
+                  </td>
+                  <td class="small text-muted">{{ user.createdAt | date:'mediumDate' }}</td>
+                  <td class="text-end">
+                    @if (user.id !== currentUserId) {
+                      <div class="d-flex gap-2 justify-content-end">
+                        <button class="btn btn-sm"
+                                [class.btn-outline-warning]="!user.isBlocked"
+                                [class.btn-outline-success]="user.isBlocked"
+                                (click)="toggleBlock(user)"
+                                [disabled]="actionId === user.id"
+                                [title]="user.isBlocked ? 'Unblock' : 'Block'">
+                          <i class="fa-solid" [class.fa-ban]="!user.isBlocked" [class.fa-unlock]="user.isBlocked"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger"
+                                (click)="delete(user.id)"
+                                [disabled]="actionId === user.id">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    } @else {
+                      <span class="text-muted small">You</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      @if (totalPages > 1) {
+        <nav class="mt-3">
+          <ul class="pagination pagination-sm justify-content-center">
+            <li class="page-item" [class.disabled]="page === 0">
+              <button class="page-link" (click)="changePage(page - 1)">‹</button>
+            </li>
+            @for (i of [].constructor(totalPages); track $index) {
+              <li class="page-item" [class.active]="$index === page">
+                <button class="page-link" (click)="changePage($index)">{{ $index + 1 }}</button>
+              </li>
+            }
+            <li class="page-item" [class.disabled]="page === totalPages - 1">
+              <button class="page-link" (click)="changePage(page + 1)">›</button>
+            </li>
+          </ul>
+        </nav>
+      }
+
+      <p class="text-muted small text-center mt-2">{{ totalElements }} total users</p>
+    }
+  </div>
+</div>

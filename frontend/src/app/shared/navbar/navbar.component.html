@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg cc-navbar sticky-top">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" routerLink="/">
+      <i class="fa-solid fa-store"></i> CraftCorner
+    </a>
+
+    <!-- Toggle -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shops" routerLinkActive="active">Shops</a>
+        </li>
+      </ul>
+
+      <!-- Right links -->
+      <ul class="navbar-nav align-items-center gap-2">
+
+        <!-- Cart (visible to all logged-in buyers) -->
+        @if (auth.isLoggedIn() && !auth.isAdmin() && !auth.isSeller()) {
+          <li class="nav-item">
+            <a class="nav-link position-relative" routerLink="/cart">
+              <i class="fa-solid fa-cart-shopping fa-lg"></i>
+              @if (cart.cartCount() > 0) {
+                <span class="cart-badge">{{ cart.cartCount() }}</span>
+              }
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/wishlist">
+              <i class="fa-regular fa-heart fa-lg"></i>
+            </a>
+          </li>
+        }
+
+        <!-- Not logged in -->
+        @if (!auth.isLoggedIn()) {
+          <li class="nav-item">
+            <a class="btn btn-outline-primary btn-sm px-3" routerLink="/auth/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary btn-sm px-3" routerLink="/auth/register">Register</a>
+          </li>
+        }
+
+        <!-- Logged in dropdown -->
+        @if (auth.isLoggedIn()) {
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button"
+               data-bs-toggle="dropdown">
+              <div class="user-avatar">{{ auth.currentUser()?.fullName?.charAt(0) }}</div>
+              <span class="d-none d-lg-inline">{{ auth.currentUser()?.fullName }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" [routerLink]="dashboardRoute">
+                  <i class="fa-solid fa-gauge me-2"></i> Dashboard
+                </a>
+              </li>
+              @if (!auth.isAdmin()) {
+                <li><a class="dropdown-item" routerLink="/orders"><i class="fa-solid fa-box me-2"></i> My Orders</a></li>
+                <li><a class="dropdown-item" routerLink="/profile"><i class="fa-solid fa-user me-2"></i> Profile</a></li>
+              }
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <button class="dropdown-item text-danger" (click)="logout()">
+                  <i class="fa-solid fa-sign-out-alt me-2"></i> Logout
+                </button>
+              </li>
+            </ul>
+          </li>
+        }
+
+      </ul>
+    </div>
+  </div>
+</nav>

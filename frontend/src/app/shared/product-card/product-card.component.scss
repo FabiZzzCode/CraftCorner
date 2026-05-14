@@ -1,0 +1,52 @@
+.product-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover { transform: translateY(-4px); box-shadow: 0 8px 24px var(--cc-shadow); }
+}
+
+.product-img-link {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  background: var(--cc-beige);
+}
+
+.product-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+  .product-card:hover & { transform: scale(1.05); }
+}
+
+.discount-badge, .stock-badge {
+  position: absolute;
+  top: 8px; left: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.discount-badge { background: var(--cc-green); color: #fff; }
+.stock-badge    { background: #dc3545; color: #fff; }
+
+.shop-name { font-size: 0.75rem; color: var(--cc-text-muted); }
+
+.product-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  a { color: var(--cc-text); text-decoration: none; &:hover { color: var(--cc-brown); } }
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.star { color: #F0A500; }
+.empty { color: #DDD; }
+
+.price-current { font-size: 1rem; font-weight: 700; color: var(--cc-brown); }
+.price-original { font-size: 0.8rem; color: #999; text-decoration: line-through; }

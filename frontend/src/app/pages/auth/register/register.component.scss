@@ -1,0 +1,43 @@
+@use '../login/login.component' as login;
+
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--cc-cream) 0%, var(--cc-beige) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  background: var(--cc-white);
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 8px 40px var(--cc-shadow);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  .brand-link {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--cc-brown);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  h2 { font-size: 1.4rem; color: var(--cc-dark-brown); margin-bottom: 0.3rem; }
+  p  { color: var(--cc-text-muted); font-size: 0.9rem; }
+}
+
+.btn-check:checked + .btn-outline-primary {
+  background: var(--cc-brown);
+  border-color: var(--cc-brown);
+  color: #fff;
+}
+
+.form-label { font-weight: 500; font-size: 0.88rem; }
+.text-brown { color: var(--cc-brown); }

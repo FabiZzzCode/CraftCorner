@@ -1,0 +1,25 @@
+.section-panel {
+  background: var(--cc-white);
+  border: 1px solid var(--cc-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  h6 { font-family: 'Playfair Display', serif; color: var(--cc-dark-brown); margin-bottom: 1rem; }
+}
+
+.status-banner {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  &.status-pending  { background: #fff8e1; color: #92400e; border: 1px solid #fcd34d; }
+  &.status-approved { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
+  &.status-rejected { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; }
+  &.status-suspended{ background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
+}
+
+.invalid-msg { color: var(--bs-danger); font-size: 0.8rem; margin-top: 0.25rem; }
+
+.preview-img {
+  width: 100%; max-height: 80px; object-fit: cover; border-radius: 8px;
+  &.round { width: 64px; height: 64px; border-radius: 50%; }
+  &.banner { max-height: 80px; }
+}

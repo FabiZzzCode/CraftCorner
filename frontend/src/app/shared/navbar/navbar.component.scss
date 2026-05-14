@@ -1,0 +1,52 @@
+.cc-navbar {
+  background: var(--cc-white);
+  border-bottom: 2px solid var(--cc-beige);
+  padding: 0.6rem 0;
+
+  .navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cc-dark-brown);
+    i { color: var(--cc-brown); }
+    &:hover { color: var(--cc-brown); }
+  }
+
+  .nav-link {
+    color: var(--cc-text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    &:hover, &.active { color: var(--cc-brown); background: var(--cc-beige); }
+  }
+
+  .user-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--cc-brown);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: 0; right: 0;
+    background: var(--cc-brown);
+    color: #fff;
+    font-size: 0.65rem;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .dropdown-menu {
+    border: 1px solid var(--cc-border);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px var(--cc-shadow);
+    .dropdown-item { font-size: 0.9rem; padding: 0.5rem 1rem; border-radius: 6px; }
+  }
+}

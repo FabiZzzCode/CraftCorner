@@ -1,0 +1,83 @@
+<div class="page-wrapper">
+  <div class="container" style="max-width:720px">
+    <h2 class="section-title">{{ isNew ? 'Set Up Your Shop' : 'Edit Shop' }}</h2>
+
+    @if (loading) { <app-spinner /> }
+
+    @if (!loading) {
+      @if (shop) {
+        <div class="status-banner mb-4 status-{{ shop.status.toLowerCase() }}">
+          <i class="fa-solid fa-circle-info me-2"></i>
+          Shop Status: <strong>{{ shop.status }}</strong>
+          @if (shop.status === 'PENDING') { — Awaiting admin review. }
+          @if (shop.status === 'APPROVED') { — Your shop is live! }
+          @if (shop.status === 'REJECTED') { — Contact support for details. }
+          @if (shop.status === 'SUSPENDED') { — Your shop has been suspended. }
+        </div>
+      }
+
+      @if (success) { <div class="alert alert-success py-2 small">{{ success }}</div> }
+      @if (error)   { <div class="alert alert-danger py-2 small">{{ error }}</div> }
+
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="section-panel mb-3">
+          <h6>Basic Information</h6>
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Shop Name <span class="text-danger">*</span></label>
+              <input class="form-control" formControlName="name" placeholder="e.g. Artisan Crafts by Mila">
+              @if (f['name'].invalid && f['name'].touched) {
+                <div class="invalid-msg">Shop name is required (min 3 characters).</div>
+              }
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" formControlName="description" rows="3"
+                        placeholder="Tell customers about your shop and what makes it special..."></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Contact Email</label>
+              <input class="form-control" formControlName="contactEmail" type="email" placeholder="shop@example.com">
+              @if (f['contactEmail'].invalid && f['contactEmail'].touched) {
+                <div class="invalid-msg">Enter a valid email.</div>
+              }
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Contact Phone</label>
+              <input class="form-control" formControlName="contactPhone" placeholder="+880 1234 567890">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Shop Address</label>
+              <input class="form-control" formControlName="address" placeholder="Dhaka, Bangladesh">
+            </div>
+          </div>
+        </div>
+
+        <div class="section-panel mb-4">
+          <h6>Media</h6>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Logo URL</label>
+              <input class="form-control" formControlName="logoUrl" placeholder="https://...">
+              @if (f['logoUrl'].value) {
+                <img [src]="f['logoUrl'].value!" class="preview-img round mt-2" alt="logo preview">
+              }
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Banner URL</label>
+              <input class="form-control" formControlName="bannerUrl" placeholder="https://...">
+              @if (f['bannerUrl'].value) {
+                <img [src]="f['bannerUrl'].value!" class="preview-img banner mt-2" alt="banner preview">
+              }
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="saving">
+          @if (saving) { <span class="spinner-border spinner-border-sm me-2"></span> }
+          {{ isNew ? 'Create Shop' : 'Save Changes' }}
+        </button>
+      </form>
+    }
+  </div>
+</div>

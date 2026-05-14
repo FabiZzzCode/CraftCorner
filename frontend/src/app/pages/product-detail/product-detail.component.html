@@ -1,0 +1,169 @@
+@if (loading) {
+  <app-spinner />
+}
+
+@if (!loading && product) {
+  <div class="page-wrapper">
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <nav class="mb-3">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+          <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+      </nav>
+
+      <div class="row g-4">
+
+        <!-- Image gallery -->
+        <div class="col-lg-5">
+          <div class="main-image-wrap">
+            <img [src]="selectedImage || 'assets/placeholder-product.jpg'"
+                 [alt]="product.name" class="main-image">
+          </div>
+          @if (product.imageUrls.length > 1) {
+            <div class="thumbnail-row mt-2 d-flex gap-2 flex-wrap">
+              @for (img of product.imageUrls; track img) {
+                <img [src]="img" class="thumb" [class.active]="img === selectedImage"
+                     (click)="selectedImage = img">
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Product info -->
+        <div class="col-lg-7">
+          <p class="shop-link">
+            <i class="fa-solid fa-store me-1"></i>
+            <a [routerLink]="['/shops', product.shopId]">{{ product.shopName }}</a>
+          </p>
+          <h1 class="product-title">{{ product.name }}</h1>
+
+          <!-- Rating -->
+          <div class="d-flex align-items-center gap-2 mb-3">
+            @for (s of stars(product.averageRating); track s) {
+              <i class="fa-star" [class.fa-solid]="s <= product.averageRating"
+                 [class.fa-regular]="s > product.averageRating"
+                 [class.star]="s <= product.averageRating" [class.empty]="s > product.averageRating"></i>
+            }
+            <span class="small text-muted">({{ product.reviewCount }} reviews)</span>
+          </div>
+
+          <!-- Price -->
+          <div class="price-block mb-3">
+            @if (product.discountPrice) {
+              <span class="price-big">৳{{ product.discountPrice | number:'1.0-0' }}</span>
+              <span class="price-original ms-3">৳{{ product.price | number:'1.0-0' }}</span>
+            } @else {
+              <span class="price-big">৳{{ product.price | number:'1.0-0' }}</span>
+            }
+          </div>
+
+          <p class="description">{{ product.description }}</p>
+
+          <!-- Meta -->
+          <div class="meta-grid mb-3">
+            @if (product.material) {
+              <div><span>Material:</span> {{ product.material }}</div>
+            }
+            @if (product.productionTime) {
+              <div><span>Production Time:</span> {{ product.productionTime }}</div>
+            }
+            @if (product.deliveryOption) {
+              <div><span>Delivery:</span> {{ product.deliveryOption }}</div>
+            }
+            <div>
+              <span>Availability:</span>
+              @if (product.stockQuantity > 0) {
+                <span class="text-success fw-semibold">In Stock ({{ product.stockQuantity }})</span>
+              } @else {
+                <span class="text-danger fw-semibold">Out of Stock</span>
+              }
+            </div>
+            <div><span>Category:</span> {{ product.categoryName }}</div>
+          </div>
+
+          <!-- Qty + Add to cart -->
+          @if (product.stockQuantity > 0) {
+            <div class="d-flex gap-3 align-items-center flex-wrap mb-3">
+              <div class="qty-control d-flex align-items-center">
+                <button class="btn btn-outline-secondary btn-sm" (click)="setQty(quantity - 1)">−</button>
+                <span class="px-3 fw-semibold">{{ quantity }}</span>
+                <button class="btn btn-outline-secondary btn-sm" (click)="setQty(quantity + 1)">+</button>
+              </div>
+              <button class="btn btn-primary px-4" [disabled]="addingToCart" (click)="addToCart()">
+                @if (addingToCart) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                <i class="fa-solid fa-cart-plus me-2"></i>Add to Cart
+              </button>
+              <button class="btn btn-outline-secondary px-3" (click)="toggleWishlist()">
+                <i [class]="inWishlist ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart'"></i>
+              </button>
+            </div>
+          }
+
+          @if (cartSuccess) {
+            <div class="alert alert-success py-2 small">
+              <i class="fa-solid fa-check me-2"></i>Added to cart!
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="row mt-5">
+        <div class="col-lg-8">
+          <h3 class="section-title">Customer Reviews</h3>
+
+          @if (auth.isLoggedIn() && auth.isBuyer()) {
+            <div class="review-form mb-4">
+              <h6>Write a Review</h6>
+              <div class="mb-2">
+                <label class="form-label small">Rating</label>
+                <div class="d-flex gap-1">
+                  @for (s of stars(5); track s) {
+                    <i class="fa-star fa-lg"
+                       [class.fa-solid]="s <= newRating" [class.fa-regular]="s > newRating"
+                       [class.star]="s <= newRating" [class.empty]="s > newRating"
+                       style="cursor:pointer" (click)="newRating = s"></i>
+                  }
+                </div>
+              </div>
+              <input type="text" class="form-control mb-2" [(ngModel)]="newTitle" placeholder="Review title">
+              <textarea class="form-control mb-2" [(ngModel)]="newComment" rows="3" placeholder="Share your experience..."></textarea>
+              <button class="btn btn-primary btn-sm" (click)="submitReview()" [disabled]="submittingReview">
+                Submit Review
+              </button>
+            </div>
+          }
+
+          @if (reviews.length === 0) {
+            <p class="text-muted">No reviews yet. Be the first to review!</p>
+          }
+
+          @for (review of reviews; track review.id) {
+            <div class="review-item">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <strong>{{ review.buyerName }}</strong>
+                  <div class="d-flex gap-1 mt-1">
+                    @for (s of stars(5); track s) {
+                      <i class="fa-star fa-xs" [class.fa-solid]="s <= review.rating"
+                         [class.fa-regular]="s > review.rating"
+                         [class.star]="s <= review.rating" [class.empty]="s > review.rating"></i>
+                    }
+                  </div>
+                </div>
+                <span class="small text-muted">{{ review.createdAt | date:'mediumDate' }}</span>
+              </div>
+              @if (review.title) { <p class="mt-2 mb-1 fw-semibold">{{ review.title }}</p> }
+              @if (review.comment) { <p class="small mb-0">{{ review.comment }}</p> }
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+}

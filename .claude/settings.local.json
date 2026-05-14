@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(ng version 2>$null)",
+      "PowerShell(node --version 2>$null)",
+      "PowerShell(npm --version 2>$null)",
+      "PowerShell(java --version 2>$null)",
+      "PowerShell(mvn --version 2>$null)",
+      "PowerShell(docker --version 2>$null)",
+      "PowerShell(git -C \"C:\\\\Users\\\\Farhan\\\\CraftCorner\" init)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Farhan\\\\CraftCorner\\\\frontend\\\\src\\\\app\\\\app.component.html\" -Force)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Farhan\\\\CraftCorner\\\\frontend\\\\src\\\\app\\\\app.component.scss\" -Force)",
+      "PowerShell(java -version 2>&1)",
+      "PowerShell(mvn -version 2>&1)",
+      "PowerShell(ls \"C:\\\\Program Files\\\\\")",
+      "PowerShell(ls \"C:\\\\Program Files\\\\Java\\\\\")",
+      "PowerShell(& \"C:\\\\Program Files\\\\PostgreSQL\\\\17\\\\bin\\\\psql.exe\" -U craftcorner -d craftcorner -f \"C:\\\\Users\\\\Farhan\\\\CraftCorner\\\\database\\\\p14052026a.sql\" 2>&1)",
+      "PowerShell(& \"C:\\\\Program Files\\\\PostgreSQL\\\\18\\\\bin\\\\psql.exe\" -U craftcorner -d craftcorner -f \"C:\\\\Users\\\\Farhan\\\\CraftCorner\\\\database\\\\p14052026a.sql\" 2>&1)",
+      "PowerShell($env:PGPASSWORD = \"craftcorner\"; & \"C:\\\\Program Files\\\\PostgreSQL\\\\18\\\\bin\\\\psql.exe\" -U craftcorner -d craftcorner -f \"C:\\\\Users\\\\Farhan\\\\CraftCorner\\\\database\\\\p14052026a.sql\" 2>&1)",
+      "PowerShell($env:PGPASSWORD = \"postgres\"; & \"C:\\\\Program Files\\\\PostgreSQL\\\\18\\\\bin\\\\psql.exe\" -U postgres -c \"ALTER ROLE craftcorner LOGIN;\" 2>&1)",
+      "PowerShell($env:PGPASSWORD = \"craftcorner\"; & \"C:\\\\Program Files\\\\PostgreSQL\\\\18\\\\bin\\\\psql.exe\" -U craftcorner -d craftcorner -c \"ALTER TABLE reviews ALTER COLUMN rating TYPE INTEGER;\" 2>&1)",
+      "PowerShell(winget --version 2>&1)",
+      "PowerShell(winget install --id GitHub.cli --silent --accept-package-agreements --accept-source-agreements 2>&1)"
+    ]
+  }
+}
